@@ -3,10 +3,6 @@
 
 using namespace std;
 
-#define MAXSIZE 400
-
-int par[MAXSIZE];
-
 struct disjointSets
 {
   vector<int> parent, rank;
@@ -17,7 +13,7 @@ struct disjointSets
 
     rank.resize(n, 0);
 
-    for (int i = 1; i <= n; i++)
+    for (int i = 0; i < n; i++)
       parent[i] = i;
   }
 
@@ -29,19 +25,6 @@ struct disjointSets
     }
 
     return parent[u];
-  }
-
-  int findConnection(int k, int l)
-  {
-    if (parent[k] == k)
-      return 0;
-
-    if (parent[k] != l)
-    {
-      findConnection(parent[k], l);
-    }
-
-    return 1;
   }
 
   void merge(int x, int y)
@@ -60,10 +43,8 @@ struct disjointSets
 
 int main()
 {
-  // n -> num de bairros, m -> num de conexões, p -> num de perguntas
   int n, m, p;
   int a, b, k, l;
-  int existPath1, existPath2;
 
   cin >> n >> m >> p;
 
@@ -73,32 +54,20 @@ int main()
   {
     cin >> a >> b;
 
-    neighborhoods.merge(a, b);
+    neighborhoods.merge(a - 1, b - 1);
   }
-
-  // for (int i = 1; i <= n; i++)
-  //   cout << i << '\t';
-  // cout << endl;
-
-  // for (int i = 1; i <= n; i++)
-  //   cout << neighborhoods.parent[i] << '\t';
-  // cout << endl;
 
   while (p--)
   {
     cin >> k >> l;
 
-    existPath1 = neighborhoods.findConnection(k, l);
-    existPath2 = neighborhoods.findConnection(l, k);
+    k = neighborhoods.find(k - 1);
+    l = neighborhoods.find(l - 1);
 
-    if (existPath1 || existPath2)
-    {
+    if (neighborhoods.parent[k] == neighborhoods.parent[l])
       cout << "Lets que lets" << endl;
-    }
     else
-    {
       cout << "Deu ruim" << endl;
-    }
   }
 
   return 0;
