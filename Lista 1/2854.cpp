@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <map>
+#include <set>
 #include <string>
 
 using namespace std;
@@ -49,6 +50,7 @@ int main()
 {
   int m, n, mapIndex = 1, family = 0;
   string personA, relation, personB;
+  set<int> families;
 
   cin >> m >> n;
 
@@ -75,13 +77,17 @@ int main()
 
   for (int j = 0; j < m; j++)
   {
-    if (parents.rank[j] != 0)
-    {
-      family++;
-    }
+    // if (parents.rank[j] != 0)
+    // {
+    //   family++;
+    // }
+
+    families.insert(parents.parent[j]);
   }
 
-  cout << family << endl;
+  // cout << family << endl;
+
+  cout << families.size() << endl;
 
   return 0;
 }
