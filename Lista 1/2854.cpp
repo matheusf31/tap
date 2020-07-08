@@ -77,15 +77,8 @@ int main()
 
   for (int j = 0; j < m; j++)
   {
-    // if (parents.rank[j] != 0)
-    // {
-    //   family++;
-    // }
-
     families.insert(parents.parent[j]);
   }
-
-  // cout << family << endl;
 
   cout << families.size() << endl;
 
