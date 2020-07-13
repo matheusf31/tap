@@ -1,18 +1,17 @@
-#include <iostream>
 #include <bits/stdc++.h>
+
+#include <iostream>
 
 using namespace std;
 
-int main()
-{
+int main() {
   int testCase = 1;
   int nodes, edges;
   int n;
 
   cin >> n;
 
-  while (n--)
-  {
+  while (n--) {
     cin >> nodes >> edges;
 
     char a[nodes][nodes];
@@ -21,13 +20,11 @@ int main()
 
     char node1, node2;
 
-    for (int i = 0; i < nodes; i++)
-    {
+    for (int i = 0; i < nodes; i++) {
       a[i][0] = i + 97;
     }
 
-    while (edges--)
-    {
+    while (edges--) {
       cin >> node1 >> node2;
 
       int z = node1 - 97, Z = node2 - 97;
@@ -44,14 +41,12 @@ int main()
 
     int connected = 0;
 
-    for (int i = 0; i < nodes; i++)
-    {
+    for (int i = 0; i < nodes; i++) {
       bool line = false;
 
       stack<char> t;
 
-      if (v[i] == -1)
-      {
+      if (v[i] == -1) {
         t.push(i + 97);
 
         connected++;
@@ -65,8 +60,7 @@ int main()
 
       int CP = 0;
 
-      while (!t.empty())
-      {
+      while (!t.empty()) {
         char d = t.top();
 
         if (CP != 0)
@@ -77,12 +71,9 @@ int main()
         t.pop();
         CP++;
 
-        for (int j = 0; j < nodes; j++)
-        {
-          if (a[d - 97][j] != '#')
-          {
-            if (v[a[d - 97][j] - 97] == -1)
-            {
+        for (int j = 0; j < nodes; j++) {
+          if (a[d - 97][j] != '#') {
+            if (v[a[d - 97][j] - 97] == -1) {
               line = true;
               v[a[d - 97][j] - 97] = 1;
               t.push(a[d - 97][j]);
@@ -93,8 +84,7 @@ int main()
 
       vector<char> s;
 
-      while (!Copy.empty())
-      {
+      while (!Copy.empty()) {
         char tp = Copy.top();
         s.push_back(tp);
         Copy.pop();
@@ -102,13 +92,11 @@ int main()
 
       sort(s.begin(), s.end());
 
-      for (int i = 0; i < s.size(); i++)
-      {
+      for (int i = 0; i < s.size(); i++) {
         cout << s[i] << ",";
       }
 
-      if (line)
-        cout << endl;
+      if (line) cout << endl;
     }
 
     cout << connected << " connected components" << endl;
