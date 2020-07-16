@@ -4,6 +4,10 @@
     ".stylelintrc": "json",
     ".prettier": "json",
     "iostream": "cpp",
-    "ostream": "cpp"
+    "ostream": "cpp",
+    "*.tcc": "cpp",
+    "deque": "cpp",
+    "string": "cpp",
+    "vector": "cpp"
   }
 }

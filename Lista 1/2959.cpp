@@ -3,32 +3,26 @@
 
 using namespace std;
 
-struct disjointSets
-{
+struct disjointSets {
   vector<int> parent, rank;
 
-  disjointSets(int n)
-  {
+  disjointSets(int n) {
     parent.resize(n);
 
     rank.resize(n, 0);
 
-    for (int i = 0; i < n; i++)
-      parent[i] = i;
+    for (int i = 0; i < n; i++) parent[i] = i;
   }
 
-  int find(int u)
-  {
-    if (u != parent[u])
-    {
+  int find(int u) {
+    if (u != parent[u]) {
       parent[u] = find(parent[u]);
     }
 
     return parent[u];
   }
 
-  void merge(int x, int y)
-  {
+  void merge(int x, int y) {
     x = find(x), y = find(y);
 
     if (rank[x] > rank[y])
@@ -36,13 +30,11 @@ struct disjointSets
     else
       parent[x] = y;
 
-    if (rank[x] == rank[y])
-      rank[y]++;
+    if (rank[x] == rank[y]) rank[y]++;
   }
 };
 
-int main()
-{
+int main() {
   int n, m, p;
   int a, b, k, l;
 
@@ -50,15 +42,13 @@ int main()
 
   disjointSets neighborhoods(n);
 
-  for (int i = 0; i < m; i++)
-  {
+  for (int i = 0; i < m; i++) {
     cin >> a >> b;
 
     neighborhoods.merge(a - 1, b - 1);
   }
 
-  while (p--)
-  {
+  while (p--) {
     cin >> k >> l;
 
     k = neighborhoods.find(k - 1);
