@@ -57,7 +57,7 @@ void dijkstra() {
 
     if (visited[vertice]) continue;
 
-    visited[v] = true;
+    visited[vertice] = true;
 
     for (it = graph[vertice].begin(); it != graph[vertice].end(); it++) {
       if (dist[it->second] > weight + it->first) {
