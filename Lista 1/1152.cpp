@@ -17,14 +17,15 @@ vector<bool> visited;
 int v, e, totalCost = 0;
 
 void inputRead() {
-  dist.resize(v);
-  parent.resize(v);
+  dist.resize(v, INF);
+  parent.resize(v, -1);
   visited.resize(v, false);
   graph.resize(v);
 
   dist.assign(v, INF);
   parent.assign(v, -1);
   visited.assign(v, false);
+  graph.clear();
 
   totalCost = 0;
 
