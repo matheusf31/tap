@@ -1,31 +1,54 @@
-#include <iomanip>
 #include <iostream>
-#include <list>
-#include <queue>
+#include <algorithm>
 #include <vector>
 
 using namespace std;
 
 typedef pair<int, int> pi;
+typedef pair<int, pi> ppi;
 
-const int INF = 0x3f3f3f3f;
+vector<ppi> edges;
+vector<ppi> mst;
 
-vector<list<pi> > graph;
-vector<int> dist;
-vector<int> parent;
-vector<bool> visited;
 int v, e, totalCost = 0;
 
-void inputRead() {
-  dist.resize(v, INF);
-  parent.resize(v, -1);
-  visited.resize(v, false);
-  graph.resize(v);
+struct disjointSets {
+  vector<int> parent, rank;
 
-  dist.assign(v, INF);
-  parent.assign(v, -1);
-  visited.assign(v, false);
-  graph.clear();
+  disjointSets(int n) {
+    parent.resize(n);
+
+    rank.resize(n, 0);
+
+    for (int i = 0; i < n; i++) parent[i] = i;
+  }
+
+  int find(int u) {
+    if (u != parent[u]) {
+      parent[u] = find(parent[u]);
+    }
+
+    return parent[u];
+  }
+
+  void merge(int x, int y) {
+    x = find(x), y = find(y);
+
+    if (rank[x] > rank[y])
+      parent[y] = x;
+    else
+      parent[x] = y;
+
+    if (rank[x] == rank[y]) rank[y]++;
+  }
+};
+
+void inputRead() {
+  edges.reserve(e);
+  mst.reserve(v-1);
+
+  edges.clear();
+  mst.clear();
 
   totalCost = 0;
 
@@ -36,66 +59,48 @@ void inputRead() {
 
     totalCost += z;
 
-    graph[x].push_back(make_pair(z, y));
-    graph[y].push_back(make_pair(z, x));
+    edges.push_back(make_pair(z, make_pair(x, y)));
   }
 }
 
-void dijkstra() {
-  priority_queue<pi, vector<pi>, greater<pi> > pq;
-  pq.push(make_pair(0, 0));
+void kruskal() {
+  sort(edges.begin(), edges.end());
 
-  dist[0] = 0;
+  disjointSets ds(v);
 
-  list<pi>::iterator it;
+  int c = 1;
 
-  while (!pq.empty()) {
-    int weight = pq.top().first;
-    int vertice = pq.top().second;
+  vector<ppi>::iterator it;
 
-    pq.pop();
+  for (it = edges.begin(); c < v; it++)
+  {
+    int u = it->second.first;
+    int v = it->second.second;
 
-    if (visited[vertice]) continue;
+    int set_u = ds.find(u);
+    int set_v = ds.find(v);
 
-    visited[vertice] = true;
+    if (set_u != set_v) {
+      mst.push_back(make_pair(it->first, make_pair(u,v)));
 
-    for (it = graph[vertice].begin(); it != graph[vertice].end(); it++) {
-      if (dist[it->second] > weight + it->first) {
-        parent[it->second] = vertice;
-        dist[it->second] = weight + it->first;
-        pq.push(make_pair(dist[it->second], it->second));
-      }
+      ds.merge(set_u, set_v);
+      c++;
     }
   }
 }
 
 int main() {
-  cin >> v >> e;
-
-  while (v != e != 0) {
+  while (cin>>v>>e, v||e) {
     inputRead();
-    dijkstra();
+    kruskal();
 
-    for (int i = 0; i < v; i++) {
-      // cout << '(' << setw(2) << dist[i] << ") : " << i;
-      int distTotal = dist[i];
-
-      int j = parent[i];
-
-      while (j != -1) {
-        // cout << " -> " << j;
-        distTotal -= dist[j];
-        j = parent[j];
-      }
-
-      totalCost -= distTotal;
-
-      // cout << endl;
+    vector<ppi>::iterator it;
+    for (it = mst.begin(); it != mst.end(); it++){
+      int w = it->first;
+      totalCost -= w;
     }
 
     cout << totalCost << endl;
-
-    cin >> v >> e;
   }
 
   return 0;
