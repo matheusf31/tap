@@ -72,12 +72,13 @@ int main()
       mapIndex += 1;
     }
 
-    parents.merge(people[personA] - 1, people[personB] - 1);
+    if (parents.find(people[personA]) != parents.find(people[personB]))
+      parents.merge(people[personA] - 1, people[personB] - 1);
   }
 
   for (int j = 0; j < m; j++)
   {
-    families.insert(parents.parent[j]);
+    families.insert(parents.find(j));
   }
 
   cout << families.size() << endl;
