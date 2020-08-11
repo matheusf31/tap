@@ -1,5 +1,5 @@
-#include <iostream>
 #include <algorithm>
+#include <iostream>
 #include <string>
 
 using namespace std;
@@ -10,7 +10,7 @@ int main() {
 
   cin >> n;
 
-  while(n--) {
+  while (n--) {
     cin >> letters;
 
     sort(letters.begin(), letters.end());
